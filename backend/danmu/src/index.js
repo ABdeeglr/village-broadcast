@@ -221,7 +221,7 @@ io.on('connection', (socket) => {
   });
 
   // 发送弹幕
-  socket.on('send_danmaku', async ({ roomId, text, type, effect }) => {
+  socket.on('send_danmaku', async ({ roomId, text, styleId }) => {
     const room = getRoom(roomId);
 
     // 游客不能发送弹幕
@@ -236,8 +236,7 @@ io.on('connection', (socket) => {
     const danmaku = {
       id: 'dm-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9),
       text: filteredText,
-      type: type || 'normal',
-      effect,
+      styleId: styleId || 'normal',  // 只转发 styleId，样式配置由前端管理
       user: {
         id: onlineUser.id,
         nickname: onlineUser.nickname || onlineUser.username,
