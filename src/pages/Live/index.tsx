@@ -106,18 +106,27 @@ export default function LivePage() {
           </div>
 
           <div className="flex items-center gap-3">
-            {/* 用户信息 */}
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-slate-800 rounded-xl">
-              <div className="w-7 h-7 bg-gradient-to-br from-amber-400 to-orange-500 rounded-lg flex items-center justify-center">
-                <span className="text-xs font-bold text-white">
-                  {user?.username?.charAt(0).toUpperCase() || 'G'}
-                </span>
+            {/* 用户信息 - 可点击进入个人中心 */}
+            <button
+              onClick={() => user?.role !== 'guest' && navigate('/profile')}
+              className={`hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl transition-colors ${
+                user?.role !== 'guest' ? 'bg-slate-800 hover:bg-slate-700 cursor-pointer' : 'bg-slate-800 cursor-default'
+              }`}
+            >
+              <div className="w-7 h-7 bg-gradient-to-br from-amber-400 to-orange-500 rounded-lg flex items-center justify-center overflow-hidden">
+                {user?.avatar ? (
+                  <img src={user.avatar} alt="头像" className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-xs font-bold text-white">
+                    {user?.username?.charAt(0).toUpperCase() || 'G'}
+                  </span>
+                )}
               </div>
               <span className="text-sm text-gray-300">{user?.username || '游客'}</span>
               {user?.role === 'admin' && (
                 <span className="px-1.5 py-0.5 bg-amber-500/20 text-amber-400 text-xs rounded-full">管理员</span>
               )}
-            </div>
+            </button>
 
             {/* 管理后台按钮 */}
             {user?.role === 'admin' && (

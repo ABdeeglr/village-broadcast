@@ -88,6 +88,22 @@ export async function getCurrentUser(): Promise<ApiResponse<User>> {
   return apiClient.get('/auth/me');
 }
 
+/**
+ * PUT /api/user/password
+ * 修改密码
+ */
+export async function changePassword(data: { oldPassword: string; newPassword: string }): Promise<ApiResponse> {
+  return apiClient.put('/user/password', data);
+}
+
+/**
+ * PUT /api/user/profile
+ * 修改用户资料
+ */
+export async function updateProfile(data: { nickname?: string; avatar?: string }): Promise<ApiResponse<User>> {
+  return apiClient.put('/user/profile', data);
+}
+
 // ============================================================
 // 直播相关 API
 // ============================================================
