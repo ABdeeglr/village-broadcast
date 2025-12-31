@@ -36,10 +36,19 @@ export async function initDatabase() {
       username TEXT UNIQUE NOT NULL,
       password TEXT NOT NULL,
       nickname TEXT,
+      avatar TEXT DEFAULT NULL,
       role TEXT DEFAULT 'villager' NOT NULL,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
+
+  // 添加 avatar 字段（如果不存在）- 用于已存在的数据库
+  try {
+    db.run('ALTER TABLE users ADD COLUMN avatar TEXT DEFAULT NULL');
+    console.log('已添加 avatar 字段');
+  } catch (e) {
+    // 字段已存在，忽略错误
+  }
 
   db.run(`
     CREATE TABLE IF NOT EXISTS stream_config (
@@ -109,6 +118,21 @@ export const userQueries = {
     db.run('INSERT INTO users (id, username, password, nickname, role) VALUES (?, ?, ?, ?, ?)', [
       user.id, user.username, user.password, user.nickname || null, user.role
     ]);
+    saveDatabase();
+  },
+
+  updateNickname: (id, nickname) => {
+    db.run('UPDATE users SET nickname = ? WHERE id = ?', [nickname, id]);
+    saveDatabase();
+  },
+
+  updateAvatar: (id, avatar) => {
+    db.run('UPDATE users SET avatar = ? WHERE id = ?', [avatar, id]);
+    saveDatabase();
+  },
+
+  updatePassword: (id, hashedPassword) => {
+    db.run('UPDATE users SET password = ? WHERE id = ?', [hashedPassword, id]);
     saveDatabase();
   }
 };

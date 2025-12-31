@@ -31,6 +31,7 @@ router.post('/auth/login', (req, res) => {
         id: user.id,
         username: user.username,
         nickname: user.nickname,
+        avatar: user.avatar,
         role: user.role
       }
     }
@@ -82,6 +83,7 @@ router.post('/auth/register', (req, res) => {
         id: user.id,
         username: user.username,
         nickname: user.nickname,
+        avatar: user.avatar,
         role: user.role
       }
     }
@@ -108,7 +110,79 @@ router.get('/auth/me', authMiddleware, (req, res) => {
       id: user.id,
       username: user.username,
       nickname: user.nickname,
+      avatar: user.avatar,
       role: user.role
+    }
+  });
+});
+
+// ==================== 用户信息管理 ====================
+
+// PUT /api/user/password - 修改密码
+router.put('/user/password', authMiddleware, (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+
+  if (!oldPassword || !newPassword) {
+    return res.status(400).json({ success: false, message: '请提供旧密码和新密码' });
+  }
+
+  if (newPassword.length < 6) {
+    return res.status(400).json({ success: false, message: '新密码至少 6 个字符' });
+  }
+
+  const user = userQueries.findById(req.user.id);
+
+  if (!user) {
+    return res.status(404).json({ success: false, message: '用户不存在' });
+  }
+
+  // 验证旧密码
+  if (!bcrypt.compareSync(oldPassword, user.password)) {
+    return res.status(401).json({ success: false, message: '旧密码错误' });
+  }
+
+  // 更新密码
+  const hashedPassword = bcrypt.hashSync(newPassword, 10);
+  userQueries.updatePassword(user.id, hashedPassword);
+
+  res.json({ success: true, message: '密码修改成功' });
+});
+
+// PUT /api/user/profile - 修改用户资料（昵称、头像）
+router.put('/user/profile', authMiddleware, (req, res) => {
+  const { nickname, avatar } = req.body;
+
+  const user = userQueries.findById(req.user.id);
+
+  if (!user) {
+    return res.status(404).json({ success: false, message: '用户不存在' });
+  }
+
+  // 更新昵称
+  if (nickname !== undefined) {
+    if (nickname && nickname.length > 50) {
+      return res.status(400).json({ success: false, message: '昵称最多 50 个字符' });
+    }
+    userQueries.updateNickname(user.id, nickname || null);
+  }
+
+  // 更新头像
+  if (avatar !== undefined) {
+    userQueries.updateAvatar(user.id, avatar);
+  }
+
+  // 获取更新后的用户信息
+  const updatedUser = userQueries.findById(user.id);
+
+  res.json({
+    success: true,
+    message: '资料更新成功',
+    data: {
+      id: updatedUser.id,
+      username: updatedUser.username,
+      nickname: updatedUser.nickname,
+      avatar: updatedUser.avatar,
+      role: updatedUser.role
     }
   });
 });
