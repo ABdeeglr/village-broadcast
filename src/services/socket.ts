@@ -86,15 +86,14 @@ class SocketService {
   sendDanmaku(
     roomId: string,
     text: string,
-    type: 'normal' | 'special',
-    effect?: SocketEvents['emit']['send_danmaku']['effect']
+    styleId: string
   ): void {
     if (!this.socket) {
       console.warn('[Socket] Not connected');
       return;
     }
 
-    this.socket.emit('send_danmaku', { roomId, text, type, effect });
+    this.socket.emit('send_danmaku', { roomId, text, styleId });
   }
 
   /**

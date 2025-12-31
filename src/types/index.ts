@@ -72,22 +72,21 @@ export interface StreamConfig {
 // 弹幕相关类型
 // ============================================================
 
-export type DanmakuType = 'normal' | 'special';
-
-export interface DanmakuEffect {
-  color?: string;
-  fontSize?: number;
-  speed?: number;
-  position?: 'top' | 'bottom' | 'scroll';
-  border?: boolean;
-  shadow?: boolean;
+// 弹幕样式配置（仅前端使用）
+export interface DanmakuStyle {
+  color: string;
+  fontSize: number;
+  speed: number;
+  position: 'top' | 'bottom' | 'scroll';
+  border: boolean;
+  shadow: boolean;
 }
 
+// 弹幕数据结构
 export interface Danmaku {
   id: string;
   text: string;
-  type: DanmakuType;
-  effect?: DanmakuEffect;
+  styleId: string;  // 样式预设 ID（如 'normal', 'warm', 'fire'）
   user: {
     id: string;
     nickname: string;
@@ -105,7 +104,7 @@ export interface SocketEvents {
   emit: {
     join_room: { roomId: string };
     leave_room: { roomId: string };
-    send_danmaku: { roomId: string; text: string; type: DanmakuType; effect?: DanmakuEffect };
+    send_danmaku: { roomId: string; text: string; styleId: string };
     check_stream: { roomId: string };
   };
 

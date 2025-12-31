@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDanmakuStore } from '../../store';
 import { socketService } from '../../services/socket';
+import { getDanmakuStyle } from '../../config/danmakuPresets';
 import type { Danmaku as DanmakuType } from '../../types';
 
 interface DanmakuItem extends DanmakuType {
@@ -66,6 +67,9 @@ export default function DanmakuLayer() {
     const element = document.createElement('div');
     element.textContent = danmaku.text;
 
+    // 根据 styleId 获取样式配置
+    const style = getDanmakuStyle(danmaku.styleId);
+
     // 基础样式
     const baseStyle: React.CSSProperties = {
       position: 'absolute',
@@ -74,25 +78,26 @@ export default function DanmakuLayer() {
       pointerEvents: 'none',
       fontWeight: 'bold',
       textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
+      color: style.color,
+      fontSize: `${style.fontSize}px`,
     };
 
-    // 根据类型设置样式
-    if (danmaku.type === 'special' && danmaku.effect) {
-      const { color, fontSize, border, shadow } = danmaku.effect;
-      Object.assign(element.style, baseStyle, {
-        color: color || '#ff6b6b',
-        fontSize: `${fontSize || 24}px`,
-        border: border ? '2px solid rgba(255, 255, 255, 0.8)' : 'none',
-        borderRadius: border ? '4px' : '0',
-        padding: border ? '4px 8px' : '0',
-        boxShadow: shadow ? '0 0 10px currentColor' : 'none',
-      });
-    } else {
-      Object.assign(element.style, baseStyle, {
-        color: '#ffffff',
-        fontSize: '20px',
+    // 特效样式
+    if (style.border) {
+      Object.assign(baseStyle, {
+        border: '2px solid rgba(255, 255, 255, 0.8)',
+        borderRadius: '4px',
+        padding: '4px 8px',
       });
     }
+
+    if (style.shadow) {
+      Object.assign(baseStyle, {
+        boxShadow: '0 0 10px currentColor',
+      });
+    }
+
+    Object.assign(element.style, baseStyle);
 
     // 随机垂直位置 (避免遮挡顶部和底部)
     const maxTop = container.offsetHeight - 50;
@@ -106,8 +111,8 @@ export default function DanmakuLayer() {
     container.appendChild(element);
 
     // 计算速度（基于设置的弹幕速度）
-    const baseSpeed = 2; // 像素/毫秒
-    const speed = baseSpeed * danmakuSpeed * (1 + Math.random() * 0.5);
+    const baseSpeed = 0.4; // 像素/毫秒（降低速度）
+    const speed = baseSpeed * danmakuSpeed * style.speed * (0.8 + Math.random() * 0.4);
 
     const item: DanmakuItem = {
       ...danmaku,

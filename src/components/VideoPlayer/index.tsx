@@ -3,16 +3,28 @@ import Hls from 'hls.js';
 
 interface VideoPlayerProps {
   hlsUrl: string;
+  hasStream?: boolean;
   autoPlay?: boolean;
   muted?: boolean;
 }
 
-export default function VideoPlayer({ hlsUrl, autoPlay = true, muted = true }: VideoPlayerProps) {
+export default function VideoPlayer({
+  hlsUrl,
+  hasStream = true,
+  autoPlay = true,
+  muted = true
+}: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [error, setError] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
+    // 如果没有直播流，不尝试加载
+    if (!hasStream || !hlsUrl) {
+      setError(null);
+      return;
+    }
+
     const video = videoRef.current;
     if (!video) return;
 
@@ -79,7 +91,7 @@ export default function VideoPlayer({ hlsUrl, autoPlay = true, muted = true }: V
     } else {
       setError('您的浏览器不支持 HLS 播放');
     }
-  }, [hlsUrl, autoPlay]);
+  }, [hlsUrl, hasStream, autoPlay]);
 
   const togglePlay = () => {
     const video = videoRef.current;
@@ -94,6 +106,21 @@ export default function VideoPlayer({ hlsUrl, autoPlay = true, muted = true }: V
 
   const handlePlay = () => setIsPlaying(true);
   const handlePause = () => setIsPlaying(false);
+
+  // 无流状态 - 显示占位符
+  if (!hasStream) {
+    return (
+      <div className="w-full h-full flex items-center justify-center bg-slate-900">
+        {/* 不需要渲染任何内容，因为 Live 页面已经覆盖了未开播提示 */}
+        <video
+          ref={videoRef}
+          className="w-full h-full opacity-0"
+          playsInline
+          muted={muted}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="relative w-full h-full">
@@ -117,23 +144,25 @@ export default function VideoPlayer({ hlsUrl, autoPlay = true, muted = true }: V
       )}
 
       {/* 播放/暂停按钮 */}
-      <button
-        onClick={togglePlay}
-        className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity"
-        aria-label={isPlaying ? '暂停' : '播放'}
-      >
-        <div className="bg-black bg-opacity-50 rounded-full p-4">
-          {isPlaying ? (
-            <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
-            </svg>
-          ) : (
-            <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          )}
-        </div>
-      </button>
+      {hasStream && (
+        <button
+          onClick={togglePlay}
+          className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity"
+          aria-label={isPlaying ? '暂停' : '播放'}
+        >
+          <div className="bg-black bg-opacity-50 rounded-full p-4">
+            {isPlaying ? (
+              <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+              </svg>
+            ) : (
+              <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            )}
+          </div>
+        </button>
+      )}
     </div>
   );
 }
