@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<title>Markmap</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+}
+html {
+  font-family: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+#mindmap {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+.markmap-dark {
+  background: #27272a;
+  color: white;
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/markmap-toolbar@0.18.12/dist/style.css">
+</head>
+<body>
+<svg id="mindmap"></svg>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script><script src="https://cdn.jsdelivr.net/npm/markmap-view@0.18.12/dist/browser/index.js"></script><script src="https://cdn.jsdelivr.net/npm/markmap-toolbar@0.18.12/dist/index.js"></script><script>(()=>{setTimeout(()=>{const{markmap:S,mm:Q}=window,$=new S.Toolbar;$.attach(Q);const I=$.render();I.setAttribute("style","position:absolute;bottom:20px;right:20px"),document.body.append(I)})})()</script><script>((l,U,M,R)=>{const N=l();window.mm=N.Markmap.create("svg#mindmap",(U||N.deriveOptions)(R),M),window.matchMedia("(prefers-color-scheme: dark)").matches&&document.documentElement.classList.add("markmap-dark")})(()=>window.markmap,null,{"content":"README","children":[{"content":"&#x9879;&#x76ee;&#x7ed3;&#x6784;","children":[{"content":"&#x524d;&#x7aef;","children":[{"content":"<mark>&#x76ee;&#x5f55;: &#x5b58;&#x50a8;&#x4e8e;&#x9879;&#x76ee;&#x6839;&#x76ee;&#x5f55;</mark>","children":[],"payload":{"tag":"li","lines":"10,11"}},{"content":"&#x4f7f;&#x7528; <code>pnpm install</code> &#x5b89;&#x88c5;&#x4f9d;&#x8d56;","children":[],"payload":{"tag":"li","lines":"11,12"}},{"content":"&#x4f7f;&#x7528; <code>pnpm run dev</code> &#x6d4b;&#x8bd5;","children":[],"payload":{"tag":"li","lines":"12,13"}},{"content":"&#x4f7f;&#x7528; <code>pnpm build</code> &#x7f16;&#x8bd1;&#xff0c;&#x751f;&#x6210;&#x7684;&#x9879;&#x76ee;&#x4f4d;&#x4e8e; <code>dist/</code> &#x76ee;&#x5f55;&#x4e0b;","children":[],"payload":{"tag":"li","lines":"13,14"}},{"content":"<code>src</code> &#x4e2d;&#x5b58;&#x50a8;&#x6e90;&#x4ee3;&#x7801;","children":[],"payload":{"tag":"li","lines":"14,16"}}],"payload":{"tag":"h2","lines":"8,9"}},{"content":"API &#x540e;&#x7aef;","children":[{"content":"<mark>&#x76ee;&#x5f55;: <code>&#x24;{PROJECT}/backend/api/</code></mark>","children":[],"payload":{"tag":"li","lines":"17,18"}},{"content":"&#x4f7f;&#x7528; <code>pnpm install</code> &#x5b89;&#x88c5;&#x4f9d;&#x8d56;","children":[],"payload":{"tag":"li","lines":"18,19"}},{"content":"&#x4f7f;&#x7528; <code>pnpm start</code> &#x542f;&#x52a8;&#x670d;&#x52a1;&#x5668;","children":[],"payload":{"tag":"li","lines":"19,20"}},{"content":"<code>.env</code> &#x4e2d;&#x914d;&#x7f6e;&#x8bbe;&#x7f6e;&#x5185;&#x5bb9;","children":[],"payload":{"tag":"li","lines":"20,22"}}],"payload":{"tag":"h2","lines":"16,17"}},{"content":"&#x5f39;&#x5e55;&#x540e;&#x7aef;","children":[{"content":"<mark>&#x76ee;&#x5f55;: <code>&#x24;{PROJECT}/backend/danmu/</code></mark>","children":[],"payload":{"tag":"li","lines":"23,24"}},{"content":"&#x4f7f;&#x7528; <code>pnpm install</code> &#x5b89;&#x88c5;&#x4f9d;&#x8d56;","children":[],"payload":{"tag":"li","lines":"24,25"}},{"content":"&#x4f7f;&#x7528; <code>pnpm start</code> &#x542f;&#x52a8;&#x670d;&#x52a1;&#x5668;","children":[],"payload":{"tag":"li","lines":"25,26"}},{"content":"<code>.env</code> &#x4e2d;&#x914d;&#x7f6e;&#x8bbe;&#x7f6e;&#x5185;&#x5bb9;","children":[],"payload":{"tag":"li","lines":"26,28"}}],"payload":{"tag":"h2","lines":"22,23"}},{"content":"Nginx &#x914d;&#x7f6e;","children":[{"content":"<mark>&#x76ee;&#x5f55;: <code>&#x24;{PROJECT}/nginx-config</code></mark>","children":[],"payload":{"tag":"li","lines":"29,30"}},{"content":"&#x9700;&#x8981; <code>nginx-mod-rtmp</code>","children":[],"payload":{"tag":"li","lines":"30,32"}}],"payload":{"tag":"h2","lines":"28,29"}}],"payload":{"tag":"h1","lines":"6,7"}},{"content":"&#x90e8;&#x7f72;","children":[{"content":"1. &#x5728; <code>/opt</code> &#x65b0;&#x5efa;&#x9879;&#x76ee;&#x6839;&#x76ee;&#x5f55;: <code>mkdir -p /opt/&#x24;{PROJECT}</code>","children":[],"payload":{"tag":"li","lines":"34,35","listIndex":1}},{"content":"2. &#x8fdb;&#x5165;&#x9879;&#x76ee;&#x90e8;&#x7f72;&#x76ee;&#x5f55;&#x540e;&#xff0c;&#x65b0;&#x5efa;&#x524d;&#x7aef;&#x548c;&#x540e;&#x7aef;&#xff1a;<code>mkdir api danmu frontend</code> &#x4ee5;&#x53ca;&#x8f85;&#x52a9;&#x76ee;&#x5f55;&#xff1a;<code>mkdir data logs</code>","children":[],"payload":{"tag":"li","lines":"35,36","listIndex":2}},{"content":"3. &#x5c06; <code>dist/</code> &#x76ee;&#x5f55;&#x4e0b;&#x7684;&#x7f16;&#x8bd1;&#x4ea7;&#x7269;&#x63a8;&#x9001;&#x5230; <code>frontend</code>","children":[],"payload":{"tag":"li","lines":"36,37","listIndex":3}},{"content":"4. &#x5c06; <code>backend/api/</code> &#x76ee;&#x5f55;&#x4e0b;&#x7684;&#x4ee3;&#x7801;&#x63a8;&#x9001;&#x5230; <code>api/</code>&#xff0c;&#x7136;&#x540e;&#x901a;&#x8fc7; npm &#x6216; pnpm &#x5b89;&#x88c5;&#x4f9d;&#x8d56;","children":[],"payload":{"tag":"li","lines":"37,38","listIndex":4}},{"content":"5. &#x5c06; <code>backend/danmu/</code> &#x76ee;&#x5f55;&#x4e0b;&#x7684;&#x4ee3;&#x7801;&#x63a8;&#x9001;&#x5230; <code>danmu/</code>&#xff0c;&#x7136;&#x540e;&#x901a;&#x8fc7; npm &#x6216; pnpm &#x5b89;&#x88c5;&#x4f9d;&#x8d56;","children":[],"payload":{"tag":"li","lines":"38,39","listIndex":5}},{"content":"6. &#x914d;&#x7f6e;&#x670d;&#x52a1;&#x7aef; <code>/etc/nginx/nginx.conf</code>&#xff0c;&#x5e76;&#x8bbe;&#x7f6e;&#x6b63;&#x786e;&#x7aef;&#x53e3;&#xff1b;","children":[],"payload":{"tag":"li","lines":"39,40","listIndex":6}}],"payload":{"tag":"h1","lines":"32,33"}}]},{"colorFreezeLevel":2})</script>
+</body>
+</html>
